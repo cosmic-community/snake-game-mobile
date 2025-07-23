@@ -48,8 +48,10 @@ export function useGameLogic(gameConfig: GameConfig, highScore: number) {
       return true
     }
 
-    // Self collision
-    return snake.some(segment => segment.x === head.x && segment.y === head.y)
+    // Self collision - check against snake body (excluding the head which is at index 0)
+    // We only check against the body segments, not the current head position
+    const snakeBody = snake.slice(1)
+    return snakeBody.some(segment => segment.x === head.x && segment.y === head.y)
   }, [gameConfig.boardWidth, gameConfig.boardHeight])
 
   // Get next position based on direction
