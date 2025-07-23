@@ -1,16 +1,16 @@
 interface GameOverScreenProps {
-  score: number
+  finalScore: number
   highScore: number
-  isNewHighScore: boolean
   onRestart: () => void
 }
 
 export default function GameOverScreen({
-  score,
+  finalScore,
   highScore,
-  isNewHighScore,
   onRestart
 }: GameOverScreenProps) {
+  const isNewHighScore = finalScore >= highScore
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
       <div className="bg-button-bg border border-game-border rounded-lg p-6 text-center space-y-4 max-w-sm mx-4">
@@ -24,7 +24,7 @@ export default function GameOverScreen({
         
         <div className="space-y-2">
           <div className="text-lg">
-            Final Score: <span className="text-snake-green font-bold">{score}</span>
+            Final Score: <span className="text-snake-green font-bold">{finalScore}</span>
           </div>
           <div className="text-sm text-gray-400">
             High Score: <span className="text-yellow-400">{highScore}</span>
