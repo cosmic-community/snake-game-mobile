@@ -37,7 +37,7 @@ export default function HomePage() {
   useEffect(() => {
     if (gameState.gameStatus === 'GAME_OVER' && gameState.score > highScore) {
       setHighScore(gameState.score)
-      setGamesPlayed(prev => prev + 1)
+      setGamesPlayed((prev: number) => prev + 1)
     }
   }, [gameState.gameStatus, gameState.score, highScore, setHighScore, setGamesPlayed])
 
@@ -55,7 +55,7 @@ export default function HomePage() {
       const boardWidth = Math.floor(maxBoardWidth / cellSize)
       const boardHeight = Math.floor(maxBoardHeight / cellSize)
       
-      setGameConfig(prev => ({
+      setGameConfig((prev: GameConfig) => ({
         ...prev,
         boardWidth: Math.max(15, Math.min(25, boardWidth)),
         boardHeight: Math.max(15, Math.min(25, boardHeight)),

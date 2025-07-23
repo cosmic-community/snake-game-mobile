@@ -75,6 +75,15 @@ export function useGameLogic(gameConfig: GameConfig, highScore: number) {
 
       const currentDirection = prevState.nextDirection
       const head = prevState.snake[0]
+      
+      // Add null check for head - should never be undefined in valid game state
+      if (!head) {
+        return {
+          ...prevState,
+          gameStatus: 'GAME_OVER'
+        }
+      }
+      
       const newHead = getNextPosition(head, currentDirection)
 
       // Check collision
