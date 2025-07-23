@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+  
+  body {
+    @apply bg-game-bg text-score-text;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .game-button {
+    @apply bg-button-bg hover:bg-button-hover text-score-text font-mono px-4 py-2 rounded-lg border border-game-border transition-colors duration-200 select-none;
+  }
+  
+  .control-button {
+    @apply bg-button-bg hover:bg-button-hover text-score-text w-12 h-12 rounded-lg border border-game-border flex items-center justify-center select-none transition-colors duration-200 active:bg-snake-green active:text-game-bg;
+  }
+  
+  .game-canvas {
+    @apply border-2 border-game-border rounded-lg shadow-2xl;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  .score-display {
+    @apply font-mono text-xl font-bold text-center;
+  }
+  
+  .high-score-display {
+    @apply font-mono text-sm text-gray-400 text-center;
+  }
+}
+
+@layer utilities {
+  .prevent-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Game-specific animations */
+@keyframes snake-move {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes food-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.snake-segment {
+  animation: snake-move 0.1s ease-in-out;
+}
+
+.food-item {
+  animation: food-pulse 1s ease-in-out infinite;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .game-container {
+    padding: 0.5rem;
+  }
+  
+  .control-button {
+    @apply w-10 h-10 text-sm;
+  }
+  
+  .score-display {
+    @apply text-lg;
+  }
+}
+
+/* Prevent zoom on mobile */
+@media screen and (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
