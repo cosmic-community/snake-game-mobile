@@ -87,7 +87,14 @@ export default function GameControls({
 
       {/* Mobile-specific instructions */}
       <div className="text-center text-xs text-gray-500 md:hidden">
-        <p>Tap directional arrows to move</p>
+        <p>🖐️ Swipe on game board to control snake</p>
+        <p>👆 Tap directional arrows for precise control</p>
+        <p>🎯 Tap game board to pause/resume</p>
+      </div>
+
+      {/* Desktop instructions */}
+      <div className="text-center text-xs text-gray-500 hidden md:block">
+        <p>Use arrow keys or directional buttons</p>
         <p>Tap game board to pause/resume</p>
       </div>
     </div>

@@ -1,16 +1,36 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { GameState, GameConfig } from '@/types'
+import { GameState, GameConfig, Direction } from '@/types'
+import { useSwipeGesture } from '@/hooks/useSwipeGesture'
 
 interface GameBoardProps {
   gameState: GameState
   gameConfig: GameConfig
   onClick: () => void
+  onDirectionChange: (direction: Direction) => void
 }
 
-export default function GameBoard({ gameState, gameConfig, onClick }: GameBoardProps) {
+export default function GameBoard({ 
+  gameState, 
+  gameConfig, 
+  onClick, 
+  onDirectionChange 
+}: GameBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  // Setup swipe gesture handling
+  const { handleTouchStart, handleTouchEnd, handleTouchCancel } = useSwipeGesture({
+    onSwipe: onDirectionChange,
+    minSwipeDistance: 30,
+    maxSwipeTime: 1000
+  })
+
+  // Handle click vs swipe - only trigger click if no swipe occurred
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    // Only handle click on non-touch devices or if it's a short tap
+    onClick()
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -148,7 +168,7 @@ export default function GameBoard({ gameState, gameConfig, onClick }: GameBoardP
       ctx.fillStyle = '#ffffff'
       ctx.font = '12px Monaco, monospace'
       ctx.fillText(
-        'Tap to start',
+        'Swipe or tap to start',
         canvas.width / 2,
         canvas.height / 2 + 15
       )
@@ -162,7 +182,10 @@ export default function GameBoard({ gameState, gameConfig, onClick }: GameBoardP
       width={gameConfig.boardWidth * gameConfig.cellSize}
       height={gameConfig.boardHeight * gameConfig.cellSize}
       className="game-canvas cursor-pointer select-none"
-      onClick={onClick}
+      onClick={handleCanvasClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchCancel}
       style={{
         touchAction: 'none',
         maxWidth: '100%',
